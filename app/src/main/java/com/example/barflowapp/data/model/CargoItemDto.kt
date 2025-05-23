@@ -16,7 +16,7 @@ data class CargoItemDto(
     @SerializedName("weight_ton")
     val weightTon: Double,
     @SerializedName("price_toman")
-    val priceToman: Int,
+    val priceToman: Long,
     @SerializedName("cargo_type")
     val cargoType: String,
     @SerializedName("packaging")
