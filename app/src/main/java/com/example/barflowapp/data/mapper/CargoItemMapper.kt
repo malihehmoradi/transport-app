@@ -4,8 +4,8 @@ import com.example.barflowapp.data.model.CargoItemDto
 import com.example.barflowapp.domain.model.CargoItem
 
 object CargoItemMapper {
-    fun fromDto(dto: CargoItemDto): CargoItem {
-        return CargoItem(
+    fun fromDto(dto: CargoItemDto): CargoItem =
+        CargoItem(
             id = dto.id,
             origin = dto.origin,
             originProvince = dto.originProvince ?: "Unknown",
@@ -15,12 +15,11 @@ object CargoItemMapper {
             priceToman = dto.priceToman,
             cargoType = dto.cargoType,
             packaging = dto.packaging,
-            loadDate = dto.loadDate
+            loadDate = dto.loadDate,
         )
-    }
 
-    fun toDto(domain: CargoItem): CargoItemDto {
-        return CargoItemDto(
+    fun toDto(domain: CargoItem): CargoItemDto =
+        CargoItemDto(
             id = domain.id,
             origin = domain.origin,
             originProvince = domain.originProvince,
@@ -30,7 +29,6 @@ object CargoItemMapper {
             priceToman = domain.priceToman,
             cargoType = domain.cargoType,
             packaging = domain.packaging,
-            loadDate = domain.loadDate
+            loadDate = domain.loadDate,
         )
-    }
 }

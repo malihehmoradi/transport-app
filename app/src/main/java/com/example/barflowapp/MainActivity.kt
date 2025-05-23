@@ -23,7 +23,6 @@ class MainActivity : ComponentActivity() {
             BarFlowAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     HomeScreen {
-
                     }
                 }
             }

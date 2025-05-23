@@ -9,7 +9,6 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 object CargoModule {
-
     @Provides
     fun provideFakeDataSource(): FakeDataSource = FakeDataSource()
 }

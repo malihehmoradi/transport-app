@@ -11,27 +11,29 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val getCargoUseCase: GetCargoUseCase,
-) : ViewModel() {
-    private val _uiState = MutableStateFlow<CargoUiState>(CargoUiState.Loading)
-    val uiState: StateFlow<CargoUiState> = _uiState
+class HomeViewModel
+    @Inject
+    constructor(
+        private val getCargoUseCase: GetCargoUseCase,
+    ) : ViewModel() {
+        private val _uiState = MutableStateFlow<CargoUiState>(CargoUiState.Loading)
+        val uiState: StateFlow<CargoUiState> = _uiState
 
-    init {
-        fetchCargos()
-    }
+        init {
+            fetchCargos()
+        }
 
-    private fun fetchCargos() {
-        viewModelScope.launch {
-            try {
-                val cargos = getCargoUseCase()
-                _uiState.value = CargoUiState.Success(cargos)
-            } catch (e: Exception) {
-                _uiState.value = CargoUiState.Error("Something went wrong!")
+        private fun fetchCargos() {
+            viewModelScope.launch {
+                try {
+                    val cargos = getCargoUseCase()
+                    _uiState.value = CargoUiState.Success(cargos)
+                } catch (e: Exception) {
+                    _uiState.value = CargoUiState.Error("Something went wrong!")
+                }
             }
         }
     }
-}
 
 sealed class CargoUiState {
     object Loading : CargoUiState()

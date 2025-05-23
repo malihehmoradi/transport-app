@@ -4,5 +4,6 @@ import com.example.barflowapp.domain.model.CargoItem
 
 interface CargoRepository {
     suspend fun getCargos(): List<CargoItem>
+
     suspend fun getCargoById(id: String): CargoItem?
 }

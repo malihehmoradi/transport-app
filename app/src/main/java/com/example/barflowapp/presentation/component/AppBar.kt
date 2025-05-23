@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,7 +46,7 @@ fun AppBarRTL(
             title = {
                 androidx.compose.foundation.layout.Box(
                     modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) { title() }
             },
             modifier = modifier,
@@ -59,7 +58,7 @@ fun AppBarRTL(
                         Icon(
                             painter = (navigationIcon ?: painterResource(R.drawable.arrow_left)) as Painter,
                             contentDescription = "TopAppBar navigation icon",
-                            Modifier.size(18.dp)
+                            Modifier.size(18.dp),
                         )
                     }
                 }
@@ -71,7 +70,6 @@ fun AppBarRTL(
         )
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
@@ -92,7 +90,7 @@ fun AppBarPreview() {
             }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Rounded.List,
-                    contentDescription = stringResource(R.string.support)
+                    contentDescription = stringResource(R.string.support),
                 )
             }
         },
