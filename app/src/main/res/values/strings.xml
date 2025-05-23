@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BarFlowApp</string>
+    <string name="corgo_list">لیست بارها</string>
+    <string name="support">پشتیبانی</string>
 </resources>

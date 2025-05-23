@@ -10,16 +10,24 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.barflowapp.R
 import com.example.barflowapp.domain.model.CargoItem
+import com.example.barflowapp.presentation.component.AppBarRTL
 
 @Composable
 fun HomeScreen(
@@ -36,18 +44,20 @@ fun HomeScreen(
         }
 
         is CargoUiState.Success -> {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(2.dp),
-                modifier = Modifier.fillMaxSize()
-            ) {
-                val cargos: List<CargoItem> = (uiState.value as CargoUiState.Success).cargos
-                items(
-                    count = cargos.size,
-                    key = { it.hashCode() },
-                    itemContent = { index ->
-                        CargoItem(cargos[index], onItemClick)
-                    }
-                )
+            HomeView() {
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(2.dp),
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    val cargos: List<CargoItem> = (uiState.value as CargoUiState.Success).cargos
+                    items(
+                        count = cargos.size,
+                        key = { it.hashCode() },
+                        itemContent = { index ->
+                            CargoItem(cargos[index], onItemClick)
+                        }
+                    )
+                }
             }
         }
 
@@ -55,6 +65,33 @@ fun HomeScreen(
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text((uiState as CargoUiState.Error).message, color = Color.Red)
             }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeView(content: @Composable () -> Unit) {
+    Scaffold(
+        topBar = {
+            AppBarRTL(
+                title = { Text(stringResource(R.string.corgo_list)) },
+                onNavClick = { println("Chat icon clicked") },
+                actions = {
+                    IconButton(onClick = {
+                        println("Forward arrow clicked")
+                    }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.message_question),
+                            contentDescription = stringResource(R.string.support)
+                        )
+                    }
+                },
+            )
+        },
+    ) {
+        Box(modifier = Modifier.padding(it)) {
+            content
         }
     }
 }
