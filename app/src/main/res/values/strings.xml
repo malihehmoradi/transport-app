@@ -3,4 +3,18 @@
     <string name="corgo_list">لیست بارها</string>
     <string name="support">پشتیبانی</string>
     <string name="weight_ton">تن</string>
+
+   <!-- Cargo Detail -->
+    <string name="cargo_details_title">جزئیات بار</string>
+    <string name="close">بستن</string>
+    <string name="origin_label">مبدا</string>
+    <string name="destination_label">مقصد</string>
+    <string name="weight_label">وزن</string>
+    <string name="ton_unit">تن</string>
+    <string name="cargo_type_label">بار</string>
+    <string name="packaging_label">بسته‌بندی</string>
+    <string name="loading_date_label">تاریخ بارگیری</string>
+    <string name="confirm_action_button">با %1$s تومان کرایه می‌برم</string>
+
+
 </resources>

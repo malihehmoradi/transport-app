@@ -11,7 +11,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,11 +30,38 @@ import com.example.barflowapp.R
 import com.example.barflowapp.domain.model.CargoItem
 import com.example.barflowapp.presentation.component.AppBarRTL
 import com.example.barflowapp.presentation.component.CargoCardItem
+import com.example.barflowapp.presentation.component.CargoDetailModal
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(onItemClick: (CargoItem) -> Unit) {
+fun HomeScreen() {
     val viewModel = hiltViewModel<HomeViewModel>()
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+
+    var showCargoDetailModal by remember { mutableStateOf(false) }
+    var selectedCargoItem by remember { mutableStateOf<CargoItem?>(null) }
+    val sheetState =
+        rememberModalBottomSheetState(
+            skipPartiallyExpanded = true, // Optional: Makes sheet go to full height or hidden
+        )
+    val scope = rememberCoroutineScope()
+
+    // Function to open the modal
+    val openModalWithCargo: (CargoItem) -> Unit = { cargo ->
+        selectedCargoItem = cargo
+        showCargoDetailModal = true
+        scope.launch { sheetState.show() } // Show the sheet
+    }
+
+    // Function to dismiss the modal
+    val dismissModal: () -> Unit = {
+        scope.launch {
+            sheetState.hide()
+            showCargoDetailModal = false
+            // selectedCargoItem = null // Optional: clear selected item after hiding
+        }
+    }
 
     when (uiState.value) {
         is CargoUiState.Loading -> {
@@ -48,7 +81,9 @@ fun HomeScreen(onItemClick: (CargoItem) -> Unit) {
                         count = cargos.size,
                         key = { it.hashCode() },
                         itemContent = { index ->
-                            CargoCardItem(cargos[index], onItemClick)
+                            CargoCardItem(cargos[index], onItemClick = {
+                                openModalWithCargo(it)
+                            })
                         },
                     )
                 }
@@ -61,6 +96,18 @@ fun HomeScreen(onItemClick: (CargoItem) -> Unit) {
             }
         }
     }
+
+    CargoDetailModal(
+        showModal = showCargoDetailModal,
+        onDismissRequest = dismissModal,
+        sheetState = sheetState,
+        cargoItem = selectedCargoItem,
+        onConfirmAction = { cargo ->
+            // Handle the confirm action (e.g., make a network call, navigate, etc.)
+            println("Confirmed action for cargo: ${cargo.id} at price ${cargo.priceToman}")
+            dismissModal() // Dismiss the modal after action
+        },
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
