@@ -4,11 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.barflowapp.domain.model.CargoItem
 import com.example.barflowapp.domain.usecase.GetCargoUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val getCargoUseCase: GetCargoUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<CargoUiState>(CargoUiState.Loading)

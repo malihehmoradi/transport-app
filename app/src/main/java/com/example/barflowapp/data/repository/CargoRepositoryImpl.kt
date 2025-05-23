@@ -4,9 +4,10 @@ import com.example.barflowapp.data.datasource.fake.FakeDataSource
 import com.example.barflowapp.data.mapper.CargoItemMapper
 import com.example.barflowapp.domain.model.CargoItem
 import com.example.barflowapp.domain.repository.CargoRepository
+import javax.inject.Inject
 
 
-class CargoRepositoryImpl(
+class CargoRepositoryImpl @Inject constructor(
     private val fakeDataSource: FakeDataSource
 ) : CargoRepository {
 

@@ -1,5 +1,6 @@
 package com.example.barflowapp.presentation.screen.home
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,21 +13,22 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.barflowapp.domain.model.CargoItem
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel,
     onItemClick: (CargoItem) -> Unit,
 ) {
-    val uiState = viewModel.uiState.collectAsState()
+    val viewModel = hiltViewModel<HomeViewModel>()
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
-    when (uiState) {
+    when (uiState.value) {
         is CargoUiState.Loading -> {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
@@ -34,10 +36,18 @@ fun HomeScreen(
         }
 
         is CargoUiState.Success -> {
-            LazyColumn {
-                items((uiState as CargoUiState.Success).cargos.size) { cargoId ->
-                    CargoItem((uiState as CargoUiState.Success).cargos.get(cargoId), onItemClick)
-                }
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(2.dp),
+                modifier = Modifier.fillMaxSize()
+            ) {
+                val cargos: List<CargoItem> = (uiState.value as CargoUiState.Success).cargos
+                items(
+                    count = cargos.size,
+                    key = { it.hashCode() },
+                    itemContent = { index ->
+                        CargoItem(cargos[index], onItemClick)
+                    }
+                )
             }
         }
 
