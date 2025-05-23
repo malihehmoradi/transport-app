@@ -2,18 +2,13 @@ package com.example.barflowapp.presentation.screen.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,11 +23,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.barflowapp.R
 import com.example.barflowapp.domain.model.CargoItem
 import com.example.barflowapp.presentation.component.AppBarRTL
+import com.example.barflowapp.presentation.component.CargoCardItem
 
 @Composable
-fun HomeScreen(
-    onItemClick: (CargoItem) -> Unit,
-) {
+fun HomeScreen(onItemClick: (CargoItem) -> Unit) {
     val viewModel = hiltViewModel<HomeViewModel>()
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -44,18 +38,18 @@ fun HomeScreen(
         }
 
         is CargoUiState.Success -> {
-            HomeView() {
+            HomeView {
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(2.dp),
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 ) {
                     val cargos: List<CargoItem> = (uiState.value as CargoUiState.Success).cargos
                     items(
                         count = cargos.size,
                         key = { it.hashCode() },
                         itemContent = { index ->
-                            CargoItem(cargos[index], onItemClick)
-                        }
+                            CargoCardItem(cargos[index], onItemClick)
+                        },
                     )
                 }
             }
@@ -82,36 +76,22 @@ fun HomeView(content: @Composable () -> Unit) {
                         println("Forward arrow clicked")
                     }) {
                         Icon(
-                            painter = painterResource(id = R.drawable.message_question),
-                            contentDescription = stringResource(R.string.support)
+                            painter = painterResource(id = R.drawable.ic_message_question),
+                            contentDescription = stringResource(R.string.support),
                         )
                     }
                 },
             )
         },
-    ) {
-        Box(modifier = Modifier.padding(it)) {
-            content
-        }
-    }
-}
-
-@Composable
-fun CargoItem(
-    cargo: CargoItem,
-    onItemClick: (CargoItem) -> Unit,
-) {
-    Card(
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-        elevation = CardDefaults.cardElevation(4.dp),
-        onClick = { onItemClick(cargo) },
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = cargo.origin, style = MaterialTheme.typography.titleMedium)
-            Text(text = cargo.destination, style = MaterialTheme.typography.bodyMedium)
+    ) { contentPadding ->
+        Box(
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(contentPadding),
+            contentAlignment = Alignment.Center,
+        ) {
+            content()
         }
     }
 }
