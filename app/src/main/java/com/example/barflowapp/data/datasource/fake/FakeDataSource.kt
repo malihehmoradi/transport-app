@@ -15,27 +15,27 @@ class FakeDataSource {
         CargoItemDto(
             id = id,
             origin = "تهران",
-            originProvince = "تهران",
-            destination = "شیراز",
-            destinationProvince = "شیراز",
+            originProvince = "استان تهران",
+            destination = "کرمان",
+            destinationProvince = "استان کرمان",
             weightTon = 10.0,
             priceToman = 12000000,
-            cargoType = "",
-            packaging = "",
-            loadDate = "",
+            cargoType = "سیمان",
+            packaging = "گونی",
+            loadDate = "۲۰ شهریور",
         )
 
     private fun createCargoItem(index: Int): CargoItemDto =
         CargoItemDto(
             id = index.toString(),
             origin = "تهران",
-            originProvince = "تهران",
-            destination = "شیراز",
-            destinationProvince = "شیراز",
+            originProvince = "استان تهران",
+            destination = "کرمان",
+            destinationProvince = "استان کرمان",
             weightTon = 10.0,
             priceToman = 12000000,
-            cargoType = "",
-            packaging = "",
-            loadDate = "",
+            cargoType = "سیمان",
+            packaging = "گونی",
+            loadDate = "۲۰ شهریور",
         )
 }

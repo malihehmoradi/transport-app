@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -104,7 +105,13 @@ fun CargoDetailContent(
                     modifier = Modifier.weight(2f),
                     textAlign = TextAlign.End,
                 )
-                IconButton(onClick = onClose, modifier = Modifier.weight(1f).align(Alignment.CenterVertically)) {
+                IconButton(
+                    onClick = onClose,
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .align(Alignment.CenterVertically),
+                ) {
                     Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.close))
                 }
             } else { // LTR layout
@@ -182,10 +189,14 @@ fun DetailRow(
             textAlign = TextAlign.Start,
         )
         Text(
-            text = ":$label",
+            text = ": $label",
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.End,
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .wrapContentWidth(align = Alignment.End),
         )
     }
 }
@@ -202,6 +213,7 @@ fun formatPriceForButton(priceToman: Long): String {
                 "${numberFormat.format(millions)} میلیون" // e.g., "۲٫۵ میلیون"
             }
         }
+
         priceToman >= 1_000 -> "${numberFormat.format(priceToman / 1_000)} هزار"
         else -> numberFormat.format(priceToman)
     }
