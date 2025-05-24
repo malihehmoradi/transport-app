@@ -43,7 +43,7 @@ fun HomeScreen() {
     var selectedCargoItem by remember { mutableStateOf<CargoItem?>(null) }
     val sheetState =
         rememberModalBottomSheetState(
-            skipPartiallyExpanded = true, // Optional: Makes sheet go to full height or hidden
+            skipPartiallyExpanded = true,
         )
     val scope = rememberCoroutineScope()
 

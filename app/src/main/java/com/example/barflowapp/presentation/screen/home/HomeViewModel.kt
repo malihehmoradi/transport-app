@@ -25,6 +25,7 @@ class HomeViewModel
 
         private fun fetchCargos() {
             viewModelScope.launch {
+                _uiState.value = CargoUiState.Loading
                 try {
                     val cargos = getCargoUseCase()
                     _uiState.value = CargoUiState.Success(cargos)
