@@ -14,7 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -75,7 +76,7 @@ fun CargoCardItem(
                 )
 
                 Spacer(Modifier.height(5.dp))
-                Divider(
+                HorizontalDivider(
                     modifier =
                         Modifier
                             .fillMaxWidth()
@@ -88,12 +89,22 @@ fun CargoCardItem(
                     verticalAlignment = Alignment.Top,
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Text(
-                        text = formatPrice(cargo.priceToman) + " تومان",
-                        style = MaterialTheme.typography.bodyLarge,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.primary,
-                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = "تومان",
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.primary,
+                            textAlign = TextAlign.Start,
+                        )
+                        Text(
+                            text = "${formatPrice(cargo.priceToman)}",
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.primary,
+                            textAlign = TextAlign.Start,
+                        )
+                    }
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
                             text = " ${stringResource(R.string.weight_ton)} ${cargo.weightTon}",
@@ -201,18 +212,18 @@ fun LocationText(
     }
 }
 
-// Helper function for basic price formatting (consider using NumberFormat for production)
 fun formatPrice(price: Long): String =
     when {
         price >= 1_000_000 -> {
             val millions = price / 1_000_000.0
             // Simple formatting, you might want more robust (e.g., "۲" vs "2.0")
-            if (millions % 1 == 0.0) {
-                "${millions.toInt()} میلیون"
-            } else {
-                // Format to one decimal place if needed, e.g., "۲.۵ میلیون"
-                String.format(java.util.Locale("fa"), "%.1f میلیون", millions)
-            }
+//            if (millions % 1 == 0.0) {
+//                "${millions.toInt()} ${"میلیون"}"
+//            } else {
+            // Format to one decimal place if needed, e.g., "۲.۵ میلیون"
+
+            String.format(java.util.Locale("fa"), "%.1f", millions) + "میلیون"
+//            }
         }
 
         price >= 1_000 -> "${price / 1_000} هزار" // Example for thousands

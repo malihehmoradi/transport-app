@@ -1,15 +1,18 @@
 package com.example.barflowapp.presentation.component
 
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -56,6 +59,7 @@ fun CargoDetailModal(
             sheetState = sheetState,
             shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
             containerColor = Color.White,
+            modifier = Modifier.wrapContentHeight()
         ) {
             CargoDetailContent(
                 cargoItem = cargoItem,
@@ -77,8 +81,9 @@ fun CargoDetailContent(
     Column(
         modifier =
             Modifier
-                .fillMaxWidth()
+                .wrapContentSize()
                 .padding(bottom = 16.dp),
+        verticalArrangement = Arrangement.Top,
     ) {
         // Header
         Row(
@@ -100,10 +105,11 @@ fun CargoDetailContent(
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
                     text = stringResource(R.string.cargo_details_title),
-                    style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.weight(2f),
-                    textAlign = TextAlign.End,
+                    modifier = Modifier
+                        .weight(2f)
+                        .padding(end = 8.dp),
+                    textAlign = TextAlign.Start,
                 )
                 IconButton(
                     onClick = onClose,
@@ -121,15 +127,20 @@ fun CargoDetailContent(
                 Spacer(Modifier.width(8.dp))
                 Text(
                     text = stringResource(R.string.cargo_details_title),
-                    style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .weight(2f)
+                        .padding(end = 8.dp),
+                    textAlign = TextAlign.End,
                 )
             }
         }
         HorizontalDivider()
 
         // Details
-        Column(modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)) {
+        Column(modifier = Modifier
+            .padding(horizontal = 24.dp, vertical = 16.dp)
+            .wrapContentHeight()) {
             DetailRow(label = stringResource(R.string.origin_label), value = cargoItem.origin)
             HorizontalDivider()
             DetailRow(label = stringResource(R.string.destination_label), value = cargoItem.destination)
@@ -146,8 +157,6 @@ fun CargoDetailContent(
             DetailRow(label = stringResource(R.string.loading_date_label), value = cargoItem.loadDate)
         }
 
-        Spacer(modifier = Modifier.weight(1f))
-
         Button(
             onClick = onConfirmAction,
             modifier =
@@ -155,7 +164,7 @@ fun CargoDetailContent(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
                     .height(48.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA500)),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF7A00)),
             shape = MaterialTheme.shapes.medium,
         ) {
             val formattedPrice = formatPriceForButton(cargoItem.priceToman)
@@ -163,6 +172,7 @@ fun CargoDetailContent(
                 text = stringResource(R.string.confirm_action_button, formattedPrice),
                 color = Color.White, // White text on orange button
                 fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.bodyLarge,
             )
         }
     }
