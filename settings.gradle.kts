@@ -9,6 +9,7 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+        maven( url = "https://maven.myket.ir")
     }
 }
 dependencyResolutionManagement {
@@ -16,9 +17,9 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven( url = "https://maven.myket.ir")
     }
 }
 
 rootProject.name = "BarFlowApp"
 include(":app")
- 
